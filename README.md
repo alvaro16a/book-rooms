@@ -3,12 +3,6 @@
 Este proyecto es una API creada con el framework **NestJS** para administrar las habitaciones de un hotel y sus reservas.
 
 ## Tecnologías utilizadas
-- NestJS
-- GraphQL
-- TypeScript
-- PostgreSQL
-- Prisma ORM
-- Jest
 
 - NestJS: Framework para Node.js que permite desarrollar aplicaciones escalables y modulares.
 
