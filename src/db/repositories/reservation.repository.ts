@@ -32,7 +32,7 @@ export class ReservationRepository {
         } 
     }
 
-    async createReservation(reservationData: Omit<Reservation, 'id'>): Promise<Reservation>{
+    async createReservation(reservationData: Omit<Reservation, 'id'| 'createdAt' | 'updatedAt'>): Promise<Reservation>{
         try {
             return await this.prismaService.reservation.create({
                 data: reservationData,     
@@ -40,6 +40,22 @@ export class ReservationRepository {
         } catch (error) {
             Logger.error('Error in ReservationRepository method createReservation', error);
             throw new InternalServerErrorException('An error occurred while creating the reservation');
+        } 
+    }
+
+    async cancelReservation(id: string): Promise<Reservation>{
+        try {
+            const reservation = await this.prismaService.reservation.update({
+                where: { id },
+                data: {status: 'CANCELLED'}     
+            })
+            return reservation;
+        } catch (error) {
+            if (error.code === 'P2025') {
+                throw new NotFoundException(`Reservation with ID: ${id} not found`);
+            }
+            Logger.error('Error in ReservationRepository method cancel Reservation', error);
+            throw new InternalServerErrorException('An error occurred while canceling a reservation');
         } 
     }
 }

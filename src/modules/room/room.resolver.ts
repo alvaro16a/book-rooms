@@ -8,6 +8,11 @@ import { CreateRoomInput, UpdateRoomInput } from './dto/room.dto';
 export class RoomResolver {
     constructor(private readonly roomService: RoomService) {}
 
+    @Query(() => [String])
+    async getAvailableRoomTypes(): Promise<String[]> {
+        return this.roomService.getAvailableRoomTypes();
+    }
+
     @Query(() => [Room])
     async getRooms(): Promise<Room[]> {
         return this.roomService.getRooms();

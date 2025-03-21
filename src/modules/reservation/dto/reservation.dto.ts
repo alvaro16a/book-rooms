@@ -48,3 +48,52 @@ export class CreateReservationInput {
     })
     externalView?: boolean;
 }
+
+@InputType()
+export class GetAvailableRoomsInput {
+    @IsNotEmpty()
+    @IsDate()
+    @Field({
+        description: 'Reservation start date'
+    })
+    startDate: Date;
+
+    @IsNotEmpty()
+    @IsDate()
+    @Field({
+        description: 'Reservation end date'
+    })
+    endDate: Date;
+
+    @IsNotEmpty()
+    @IsInt()
+    @Min(1)
+    @Field({
+        description: 'Number of guests for the reservation'
+    })
+    numberOfGuests: number;
+
+    @IsOptional()
+    @IsEnum(RoomType)
+    @Field({
+        description: 'room types',
+        nullable: true
+    })
+    type?: RoomType;
+
+    @IsOptional()
+    @IsBoolean()
+    @Field({
+        description: 'Whether the reservation includes all-inclusive service',
+        nullable: true
+    })
+    allInclusive?: boolean;
+
+    @IsOptional()
+    @IsBoolean()
+    @Field({
+        description: 'room has a view to the outside',
+        nullable: true
+    })
+    externalView?: boolean;
+}

@@ -1,98 +1,88 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Hotel API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este proyecto es una API creada con el framework **NestJS** para administrar las habitaciones de un hotel y sus reservas.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologías utilizadas
+- NestJS
+- GraphQL
+- TypeScript
+- PostgreSQL
+- Prisma ORM
+- Jest
 
-## Description
+- NestJS: Framework para Node.js que permite desarrollar aplicaciones escalables y modulares.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- GraphQL: Lenguaje de consulta para APIs que permite obtener datos de manera eficiente.
 
-## Project setup
+- TypeScript: Lenguaje de programación tipado que mejora la mantenibilidad del código.
 
-```bash
-$ npm install
-```
+- PostgreSQL: Sistema de gestión de bases de datos relacional utilizado para almacenar las habitaciones y reservas.
 
-## Compile and run the project
+- Prisma ORM: Herramienta para interactuar con la base de datos de manera eficiente y con tipado seguro.
 
-```bash
-# development
-$ npm run start
+- Jest: Framework de testing para JavaScript/TypeScript.
 
-# watch mode
-$ npm run start:dev
+## Pruebas unitarias
 
-# production mode
-$ npm run start:prod
-```
+Se realizaron pruebas unitarias utilizando Jest. Sin embargo, solo se implementaron pruebas en el método createReservation del servicio ReservationService, ya que este método es el más complejo de la aplicación. Se buscó lograr un 100% de cobertura en este método como demostración de conocimientos sobre cómo hacer pruebas unitarias.
 
-## Run tests
+## Ejecución del proyecto
+Para ejecutar el proyecto, asegúrate de tener en funcionamiento los contenedores creados por el archivo **docker-compose** compartido. Luego, sigue estos pasos:
 
-```bash
-# unit tests
-$ npm run test
+1. Corre las migraciones del proyecto.
+2. Ejecuta el archivo de semillas incluido en el proyecto. Este archivo creará 30 habitaciones, distribuidas de la siguiente manera:
+   - 10 habitaciones **SINGLE**
+   - 10 habitaciones **DOUBLE**
+   - 10 habitaciones **PRESIDENTIAL**
 
-# e2e tests
-$ npm run test:e2e
+## Estructura del proyecto
+El proyecto está compuesto por dos tablas principales:
+- **Room** (Habitaciones)
+- **Reservation** (Reservaciones)
 
-# test coverage
-$ npm run test:cov
-```
+Así mismo, existen dos módulos principales:
+- **Reservation**
+- **Room**
 
-## Deployment
+## Endpoints principales
+### Módulo Reservation
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+- **`cancelReservation(id: String): Reservation`**
+  - Permite cancelar una reservación mediante su ID.
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+- **`createReservation(input: ReservationInput): Reservation`**
+  - Crea una nueva reservación según las necesidades del usuario.
 
-```bash
-$ npm install -g mau
-$ mau deploy
-```
+- **`getReservations(): [Reservation]`**
+  - Devuelve todas las reservaciones sin importar su estado (**PENDING, CONFIRMED, CANCELLED, COMPLETED**).
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+- **`getReservationById(id: String): Reservation`**
+  - Obtiene información de una reservación específica por su ID.
 
-## Resources
+- **`getAvailableRooms(startDate: Date, endDate: Date): [Room]`**
+  - Consulta las habitaciones disponibles para un rango de fechas determinado. También permite comparar costos según el tipo de habitación y la disponibilidad de vista exterior.
 
-Check out a few resources that may come in handy when working with NestJS:
+  
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### Módulo Room
 
-## Support
+- **`getAvailableRoomTypes(): [RoomType]`**
+  - Devuelve los tipos de habitaciones disponibles en el hotel.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- **`getRooms(): [Room]`**
+  - Retorna todas las habitaciones registradas en el hotel.
 
-## Stay in touch
+- **`getRoomById(id: String): Room`**
+  - Obtiene la información de una habitación específica mediante su ID.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- **`createRoom(input: RoomInput): Room`**
+  - Crea una nueva habitación en el sistema.
 
-## License
+- **`updateRoom(id: String, input: RoomInput): Room`**
+  - Actualiza la información de una habitación existente.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+- **`deleteRoom(id: String): Boolean`**
+  - Elimina una habitación del sistema.
+
+
+
